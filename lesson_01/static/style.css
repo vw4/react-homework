@@ -1,0 +1,20 @@
+.car-specs-table {
+    border-collapse: collapse;
+}
+.car-specs-table th, .car-specs-table td {
+    border: 1px solid black;
+}
+.car-specs-table th {
+    padding: 10px;
+}
+.car-specs-table td {
+    padding: 25px;
+}
+.car-specs-table__brand-name {
+    background-color: #4350AF;
+    color: #FFF;
+}
+.car-specs-table__model-name {
+    background-color: #D63864;
+    color: #FFF;
+}
