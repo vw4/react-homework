@@ -27,17 +27,29 @@ class Animal extends React.Component {
 
 class AnimalsTable extends React.Component {
     state = {
-        inactiveAnimalsIndexes: this.props.animals
+        inactiveAnimalsIndexes: (this.props.animals || [])
             .map((animal, index) => index)
             .sort(() => Math.random() - 0.5),
     }
 
-    componentDidMount() {
-        this.intervalId = setInterval(() => this.activateRandomAnimal(), ROLL_DELAY_MS);
+    hasAnimals() {
+        const {animals} = this.props;
+        return !!animals && !!animals.length;
     }
 
     isAnimalActive(animalIndex) {
         return !this.state.inactiveAnimalsIndexes.includes(animalIndex);
+    }
+
+    isAllAnimalsActivated() {
+        return !this.state.inactiveAnimalsIndexes.length;
+    }
+
+    componentDidMount() {
+        if (!this.hasAnimals()) {
+            return;
+        }
+        this.intervalId = setInterval(() => this.activateRandomAnimal(), ROLL_DELAY_MS);
     }
 
     activateRandomAnimal() {
@@ -45,10 +57,6 @@ class AnimalsTable extends React.Component {
             {inactiveAnimalsIndexes: this.state.inactiveAnimalsIndexes.slice(1)},
             () => this.onAnimalActivated()
         );
-    }
-
-    isAllAnimalsActivated() {
-        return !this.state.inactiveAnimalsIndexes.length;
     }
 
     onAnimalActivated() {
@@ -69,8 +77,7 @@ class AnimalsTable extends React.Component {
     }
 
     render() {
-        const {animals} = this.props;
-        if (!animals || !animals.length) {
+        if (!this.hasAnimals()) {
             return null;
         }
 
