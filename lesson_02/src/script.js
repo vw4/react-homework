@@ -13,9 +13,9 @@ const ROLL_DELAY_MS = 2 * 1000;
 class Animal extends React.Component {
     getClassName() {
         const {isActive = false} = this.props;
-        const classNames = ['table__animal'];
+        const classNames = ['list__animal'];
         if (isActive) {
-            classNames.push('table__animal--active');
+            classNames.push('list__animal--active');
         }
         return classNames.join(' ');
     }
@@ -69,15 +69,16 @@ class AnimalsTable extends React.Component {
         }
     }
 
-    getBorderWidth() {
+    getClassName() {
         const {animals} = this.props;
         const {inactiveAnimalsIndexes} = this.state;
+        const classNames = ['list'];
         if (this.isAllAnimalsActivated()) {
-            return '20px';
+            classNames.push('list--full');
+        } else if (inactiveAnimalsIndexes.length <= animals.length / 2) {
+            classNames.push('list--half-full');
         }
-        if (inactiveAnimalsIndexes.length <= animals.length / 2) {
-            return '10px';
-        }
+        return classNames.join(' ');
     }
 
     render() {
@@ -93,7 +94,7 @@ class AnimalsTable extends React.Component {
                 isActive={this.isAnimalActive(index)}
             />;
 
-        return <table className={'table'} style={{borderWidth: this.getBorderWidth()}}>
+        return <table className={this.getClassName()}>
             <tbody>
                 {animals.map(getAnimalRow)}
             </tbody>

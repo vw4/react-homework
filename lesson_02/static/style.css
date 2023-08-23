@@ -1,16 +1,24 @@
-.table {
+.list {
     border-collapse: collapse;
     margin: 20px;
     border: 0 #155724 solid;
 }
-.table__animal {
+.list--half-full {
+    margin: 10px;
+    border-width: 10px;
+}
+.list--full {
+    margin: 0;
+    border-width: 20px;
+}
+.list__animal {
     font-size: 14pt;
     border: 1px solid transparent;
 }
-.table__animal td {
+.list__animal td {
     padding: 20px;
 }
-.table__animal--active {
+.list__animal--active {
     font-weight: bold;
     color: #155724;
     background-color: #d4edda;
