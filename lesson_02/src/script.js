@@ -56,6 +56,12 @@ class AnimalsTable extends React.Component {
         this.intervalId = setInterval(() => this.activateRandomAnimal(), ROLL_DELAY_MS);
     }
 
+    componentWillUnmount() {
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+        }
+    }
+
     activateRandomAnimal() {
         this.setState(
             {inactiveAnimalsIndexes: this.state.inactiveAnimalsIndexes.slice(1)},
@@ -66,6 +72,7 @@ class AnimalsTable extends React.Component {
     onAnimalActivated() {
         if (this.isAllAnimalsActivated()) {
             clearInterval(this.intervalId);
+            this.intervalId = null;
         }
     }
 
