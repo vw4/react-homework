@@ -1,0 +1,14 @@
+.table-light, .table-light tr, .table-light td {
+    padding: 5px;
+    color: black;
+    background-color: lavender;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+.table-dark, .table-dark tr, .table-dark td {
+    padding: 5px;
+    color: white;
+    background-color: black;
+    border: 1px solid white;
+    border-collapse: collapse;
+}
