@@ -9,6 +9,7 @@ export default function ThemeMode(props) {
     const themes = ['light', 'dark'];
 
     return <label>
+        Choose theme mode:
         <select onChange={(e) => setThemeMode(e.target.value)} value={themeMode}>
             {themes.map((theme, index) =>
                 <option key={index} value={theme}>{theme}</option>
