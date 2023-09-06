@@ -1,4 +1,4 @@
-import EditableListItem from "./EditableListItem";
-import LoadingButton from "./LoadingButton";
+import TaskListItem from "./TaskListItem";
+import TaskEditItem from "./TaskEditItem";
 
-export {EditableListItem, LoadingButton};
+export {TaskListItem, TaskEditItem};

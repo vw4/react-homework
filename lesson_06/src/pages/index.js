@@ -1,3 +1,3 @@
-import List from './EditableList';
+import List from './TasksList';
 
 export {List};
