@@ -39,9 +39,8 @@ export default function TaskListItem({
         }
     }
 
-
     if (editMode) {
-        return <ItemEditForm value={value} editMode={true} onSubmit={handleOnSubmit} />;
+        return <ItemEditForm defaultValue={value} editMode={true} onSubmit={handleOnSubmit} />;
     }
 
     return <ListItemButton

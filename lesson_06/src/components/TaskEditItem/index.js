@@ -1,14 +1,14 @@
 import {IconButton, ListItem, TextField} from "@mui/material";
 import {Check as CheckIcon, Clear as ClearIcon, Add as AddIcon} from "@mui/icons-material";
-import {Fragment, useRef} from "react";
+import {Fragment, useState} from "react";
 
 export default function TaskEditItem({
-                                         value = '',
+                                         defaultValue = '',
                                          editMode = true,
                                          disabled = false,
-                                         onSubmit = () => {},
+                                         onSubmit,
 }) {
-    const inputElement = useRef();
+    const [value, setValue] = useState(defaultValue);
 
     const handleKeyDown = (e) => {
         switch (e.key) {
@@ -19,11 +19,17 @@ export default function TaskEditItem({
 
     const handleOnSave = (e) => {
         e.stopPropagation();
-        onSubmit(inputElement.current.value);
+        if (!value) {
+            return;
+        }
+        onSubmit(value);
     }
 
     const handleOnCancel = (e) => {
         e.stopPropagation();
+        if (!editMode) {
+            return;
+        }
         onSubmit();
     }
 
@@ -32,22 +38,22 @@ export default function TaskEditItem({
             variant="standard"
             fullWidth
             disabled={disabled}
-            defaultValue={value}
-            inputRef={inputElement}
+            value={value}
             onKeyDown={handleKeyDown}
+            onChange={(e) => setValue(e.target.value)}
             placeholder={editMode ? '' : 'Add new task'}
             autoFocus
         />
         {editMode
             ? <Fragment>
-                <IconButton aria-label="confirm" disabled={disabled} onClick={handleOnSave}>
+                <IconButton aria-label="confirm" disabled={disabled || !value} onClick={handleOnSave}>
                     <CheckIcon/>
                 </IconButton>
                 <IconButton aria-label="cancel" disabled={disabled} onClick={handleOnCancel}>
                     <ClearIcon/>
                 </IconButton>
             </Fragment>
-            : <IconButton aria-label="add" disabled={disabled} onClick={handleOnSave}>
+            : <IconButton aria-label="add" disabled={disabled || !value} onClick={handleOnSave}>
                 <AddIcon/>
             </IconButton>
         }
