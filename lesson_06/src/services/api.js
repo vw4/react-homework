@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 const axios = Axios.create({
-    baseURL: "https://64f8a7e1824680fd217fe52a.mockapi.io"
+    baseURL: process.env.REACT_APP_API_ENDPOINT,
 });
 
 export const getTasks = () => {
