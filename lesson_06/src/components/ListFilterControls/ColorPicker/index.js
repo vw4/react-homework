@@ -7,8 +7,17 @@ import useLocalStorage from "../../../hooks/useLocalStorage";
 export default memo(function ColorPicker({onColorChange}) {
     const [color, setColor] = useLocalStorage('text-color', '#fff');
     const colorInputRef = useRef();
+    const timerId = useRef();
 
-    useEffect(() => onColorChange(color), [color]);
+    useEffect(() => {
+        if (timerId.current) {
+            clearTimeout(timerId.current);
+        }
+        timerId.current = setTimeout(() => {
+            timerId.current = null;
+            onColorChange(color);
+        }, 300);
+    }, [color]);
 
     const onColorInputOpen = () => {
         colorInputRef.current.focus();
