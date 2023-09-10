@@ -1,9 +1,9 @@
-import {Fragment} from 'react';
+import {Fragment, memo} from 'react';
 import {List, Divider, Paper, ListItem} from '@mui/material';
 import {TaskListItem} from "../../components";
 import AddTaskItem from "../AddTaskItem";
 
-export default function TasksList({
+export default memo(function TasksList({
                                       displayList = [],
                                       maxId,
                                       error,
@@ -41,4 +41,4 @@ export default function TasksList({
             </Fragment>)}
         </List>
     </Paper>
-}
+})

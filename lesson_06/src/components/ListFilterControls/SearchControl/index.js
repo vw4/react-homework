@@ -1,7 +1,8 @@
 import {FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput} from "@mui/material";
 import {Clear as ClearIcon} from "@mui/icons-material";
+import {memo} from "react";
 
-export default function SearchControl({search, setSearch}) {
+export default memo(function SearchControl({search, setSearch}) {
     return <FormControl fullWidth variant="outlined" size="small">
         <InputLabel htmlFor="search-input">Search</InputLabel>
         <OutlinedInput
@@ -22,4 +23,4 @@ export default function SearchControl({search, setSearch}) {
             }
         />
     </FormControl>;
-}
+})

@@ -1,7 +1,8 @@
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {SORT_OPTIONS} from "../../../constants";
+import {memo} from "react";
 
-export default function SortControls({sorter, setSorter}) {
+export default memo(function SortControls({sorter, setSorter}) {
     return <FormControl fullWidth size="small">
         <InputLabel id="sort-select-label">Sort</InputLabel>
         <Select
@@ -18,4 +19,4 @@ export default function SortControls({sorter, setSorter}) {
             }
         </Select>
     </FormControl>
-}
+})

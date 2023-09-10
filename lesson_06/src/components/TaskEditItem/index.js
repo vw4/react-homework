@@ -1,8 +1,8 @@
 import {IconButton, ListItem, TextField} from "@mui/material";
 import {Check as CheckIcon, Clear as ClearIcon, Add as AddIcon} from "@mui/icons-material";
-import {Fragment, useState} from "react";
+import {Fragment, memo, useState} from "react";
 
-export default function TaskEditItem({
+export default memo(function TaskEditItem({
                                          defaultValue = '',
                                          editMode = true,
                                          disabled = false,
@@ -58,4 +58,4 @@ export default function TaskEditItem({
             </IconButton>
         }
     </ListItem>
-}
+})

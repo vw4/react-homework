@@ -1,9 +1,9 @@
-import {useState} from 'react';
+import {memo, useState} from 'react';
 import {ListItemButton, CircularProgress, ListItemText, IconButton} from '@mui/material';
 import ItemEditForm from "../TaskEditItem";
 import {Delete as DeleteIcon, Edit as EditIcon} from "@mui/icons-material";
 
-export default function TaskListItem({
+export default memo(function TaskListItem({
                                              value = '',
                                              pendingValue = '',
                                              completed = false,
@@ -56,4 +56,4 @@ export default function TaskListItem({
             {deleting ? <CircularProgress size={24} color='inherit'/> : <DeleteIcon/>}
         </IconButton>
     </ListItemButton>;
-}
+})

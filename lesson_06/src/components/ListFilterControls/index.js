@@ -4,11 +4,11 @@ import {FILTER_OPTIONS, SORT_OPTIONS} from '../../constants';
 import SearchControl from "./SearchControl";
 import FilterControl from "./FilterControl";
 import SortControls from "./SortControls";
-import {useEffect} from "react";
+import {memo, useEffect} from "react";
 import './index.css';
 import ColorPicker from "./ColorPicker";
 
-export default function ListFilterControls({onFilters, onSorter, onSearch, onColorChange}) {
+export default memo(function ListFilterControls({onFilters, onSorter, onSearch, onColorChange}) {
     const [filterKeys, setFilterKeys] = useLocalStorage('filters', FILTER_OPTIONS.map(f => f.key));
     const [sortKey, setSortKey] = useLocalStorage('sorter', SORT_OPTIONS[0].key);
     const [search, setSearch] = useLocalStorage('search', '');
@@ -41,4 +41,4 @@ export default function ListFilterControls({onFilters, onSorter, onSearch, onCol
             </Grid>
         </Grid>
     </Paper>;
-}
+})

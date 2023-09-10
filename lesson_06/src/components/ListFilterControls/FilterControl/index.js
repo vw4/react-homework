@@ -1,8 +1,9 @@
 import {ButtonGroup} from "@mui/material";
 import {FILTER_OPTIONS} from "../../../constants";
 import FilterButton from "./FilterButton";
+import {memo} from "react";
 
-export default function FilterControl({filters, setFilters}) {
+export default memo(function FilterControl({filters, setFilters}) {
     const isFilterEnabled = (key) => filters.includes(key);
 
     const isLastFilter = (key) => !filters.filter(f => f !== key).length;
@@ -29,4 +30,4 @@ export default function FilterControl({filters, setFilters}) {
             />)
         }
     </ButtonGroup>;
-}
+})
