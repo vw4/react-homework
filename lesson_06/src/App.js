@@ -1,4 +1,4 @@
-import {List} from './pages';
+import {Tasks} from './pages';
 import {ThemeProvider, createTheme} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
@@ -12,7 +12,7 @@ function App() {
     return (
         <ThemeProvider theme={darkTheme}>
             <CssBaseline/>
-            <List/>
+            <Tasks />
         </ThemeProvider>
     )
 }

@@ -1,26 +1,27 @@
 import {Fragment, useState, useEffect} from 'react';
-import {List, Divider, Paper, ListItem} from '@mui/material';
-import {TaskEditItem, TaskListItem} from "../../components";
+import {ListFilterControls, TasksList} from "../../components";
 import {getTasks, updateTask, deleteTask, addTask} from "../../services/api";
+import useFilteredSortedList from "../../hooks/useFilteredSortedList";
 
-export default function EditableList() {
+export default function Tasks() {
     const [tasks, setTasks] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
     const [adding, setAdding] = useState(false);
+    const [displayList, setList, setFilters, setSorter, setSearch] = useFilteredSortedList();
+    const [color, setColor] = useState();
 
     const loadTasks = async () => {
         setLoading(true);
         const response = await getTasks();
+        setTasks(response.data);
         setLoading(false);
-        return response.data;
     };
 
     useEffect(() => {
-        loadTasks()
-            .then(setTasks)
-            .catch(setError);
+        loadTasks().catch(setError);
     }, []);
+    useEffect(() => setList(tasks), [tasks])
 
     const taskById = id => task => task.id === id;
 
@@ -80,34 +81,19 @@ export default function EditableList() {
             });
     }
 
-    let message;
-    if (error) {
-        message = <ListItem>Tasks loading failed with error: {error.message}</ListItem>;
-    } else if (loading) {
-        message = <ListItem>Loading tasks...</ListItem>;
-    } else if (!tasks.length) {
-        message = <ListItem>No tasks! Well done!</ListItem>;
-    }
-
-    return <Paper>
-        <List>
-            <TaskEditItem
-                editMode={false}
-                key={Math.max(...tasks.map(t => t.id)) + 1}
-                disabled={adding}
-                onSubmit={handleAddTask}
-            />
-            <Divider/>
-            {message}
-            {tasks.map((currentTask, index, arr) => <Fragment key={currentTask.id}>
-                <TaskListItem
-                    {...currentTask}
-                    onToggle={() => handleToggleTask(currentTask.id, !currentTask.completed)}
-                    onUpdate={(value) => handleEditTask(currentTask.id, value)}
-                    onDelete={() => handleDeleteTask(currentTask.id)}
-                />
-                {index < arr.length - 1 && <Divider/>}
-            </Fragment>)}
-        </List>
-    </Paper>
+    return <Fragment>
+        <ListFilterControls onSearch={setSearch} onFilters={setFilters} onSorter={setSorter} onColorChange={setColor}/>
+        <TasksList
+            error={error}
+            loading={loading}
+            adding={adding}
+            displayList={displayList}
+            maxId={Math.max(...tasks.map(t => t.id))}
+            onTaskAdd={handleAddTask}
+            onTaskDelete={handleDeleteTask}
+            onTaskEdit={handleEditTask}
+            onTaskToggle={handleToggleTask}
+            color={color}
+        />
+    </Fragment>
 }

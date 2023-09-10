@@ -1,5 +1,9 @@
 import Axios from "axios";
 
+if (!process.env.REACT_APP_API_ENDPOINT) {
+    throw new Error('mockapi.io endpoint is not set (REACT_APP_API_ENDPOINT)');
+}
+
 const axios = Axios.create({
     baseURL: process.env.REACT_APP_API_ENDPOINT,
 });
