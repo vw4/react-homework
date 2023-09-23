@@ -1,4 +1,4 @@
-import CountriesList from "../components/CountriesList";
+import CountriesList from "../components/CountriesList/";
 
 export function CountriesRoute() {
     return <>
