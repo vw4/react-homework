@@ -1,6 +1,21 @@
-import {useParams} from "react-router-dom";
+import {useLoaderData, useSearchParams} from "react-router-dom";
+import {getCountriesByName} from "../services/restcountries";
+import KvList from "../components/KvList";
+import {Card} from "react-bootstrap";
 
 export function CountryRoute() {
-    let {id} = useParams();
-    return <h1>CountryRoute {id}</h1>
+    const [searchParams] = useSearchParams();
+    const translation = searchParams.get('translation');
+    const {country} = useLoaderData();
+    return <Card>
+        <Card.Header>{translation ? country.translations[translation].official : country.name.official}</Card.Header>
+        <Card.Body>
+            <KvList value={country}/>
+        </Card.Body>
+    </Card>
+}
+
+export async function countryLoader({params: {name}}) {
+    const [country] = await getCountriesByName(name);
+    return {country};
 }
