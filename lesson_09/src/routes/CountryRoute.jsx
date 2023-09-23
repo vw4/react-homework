@@ -7,12 +7,15 @@ export function CountryRoute() {
     const [searchParams] = useSearchParams();
     const translation = searchParams.get('translation');
     const {country} = useLoaderData();
-    return <Card>
-        <Card.Header>{translation ? country.translations[translation].official : country.name.official}</Card.Header>
-        <Card.Body>
-            <KvList value={country}/>
-        </Card.Body>
-    </Card>
+    return <>
+        <h3>Country</h3>
+        <Card>
+            <Card.Header>{translation ? country.translations[translation].official : country.name.official}</Card.Header>
+            <Card.Body>
+                <KvList value={country}/>
+            </Card.Body>
+        </Card>
+    </>
 }
 
 export async function countryLoader({params: {name}}) {

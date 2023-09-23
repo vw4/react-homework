@@ -21,7 +21,7 @@ export default function KvList({value}) {
         return <li>{k && <b>{_.capitalize(k)}: </b>}{itemValue}</li>
     }
     if (_.isArray(value)) {
-        return <ol>{value.map(v => <ListItem v={v}/>)}</ol>
+        return <ol>{value.map((v, index) => <ListItem key={index} v={v}/>)}</ol>
     }
-    return <ul>{_.entries(value).map(([k, v]) => <ListItem k={k} v={v}/>)}</ul>
+    return <ul>{_.entries(value).map(([k, v]) => <ListItem key={k} k={k} v={v}/>)}</ul>
 }

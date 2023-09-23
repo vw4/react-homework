@@ -1,9 +1,8 @@
-import {useCountryData} from "../hooks/useCountryData";
+import CountriesList from "../components/CountriesList";
 
 export function CountriesRoute() {
-    const {countryData} = useCountryData();
     return <>
-        <h1>CountriesRoute</h1>
-        <pre>{JSON.stringify(countryData, null, 4)}</pre>
+        <h3>Countries</h3>
+        <CountriesList />
     </>
 }
