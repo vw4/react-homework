@@ -15,7 +15,7 @@ export default function CountriesList() {
         e.target.disabled = true;
         const containerElement = document.querySelector(`[data-country-item="${country}"]`);
         containerElement.classList.add('hide');
-        setTimeout(() => setCountryData(_.reject(countryData, {name: {official: country}})), 200);
+        setTimeout(() => setCountryData((prevState) => _.reject(prevState, {name: {official: country}})), 200);
     }
 
     const CountryListItem = ({flag, name}) => {
