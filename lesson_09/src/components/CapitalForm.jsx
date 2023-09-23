@@ -2,6 +2,7 @@ import {useCountryData} from "../hooks/useCountryData";
 import {Button, Card, Form} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import _ from "lodash";
+import {useNavigate} from "react-router-dom";
 
 const getTranslationsByCountry = (countryData, official) => {
     const {translations} = _.find(countryData, {name: {official}});
@@ -12,6 +13,7 @@ const getTranslationsByCountry = (countryData, official) => {
 }
 
 export default function CapitalForm() {
+    const navigate = useNavigate();
     const {countryData} = useCountryData();
     const [selectedCountry, setSelectedCountry] = useState();
     const [currentCountryTranslations, setCurrentCountryTranslations] = useState();
@@ -41,15 +43,22 @@ export default function CapitalForm() {
         e.preventDefault();
         setSelectedTranslation(e.target.value);
     }
+    const onFormSubmit = (e) => {
+        e.preventDefault();
+        const formElements = e.target.elements;
+        const {country: {value: country}, translation: {value: translation}} = formElements;
+        navigate(`/country/${country}?translation=${translation}`);
+    }
+
     if (!countryData) return;
 
     return <Card>
         <Card.Header>Capital Form Component</Card.Header>
         <Card.Body>
-            <Form onSubmit={e => e.preventDefault()}>
+            <Form onSubmit={onFormSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Label>Select Capital</Form.Label>
-                    <Form.Select value={selectedCountry} onChange={onSelectCountry}>
+                    <Form.Select name='country' value={selectedCountry} onChange={onSelectCountry}>
                         {countryData.map(country =>
                             <option key={country.name.official}
                                     value={country.name.official}>{country.flag} {country.capital?.join(',')}</option>)
@@ -59,7 +68,7 @@ export default function CapitalForm() {
                 {currentCountryTranslations &&
                     <Form.Group className="mb-3">
                         <Form.Label>Select Translation</Form.Label>
-                        <Form.Select value={selectedTranslation} onChange={onSelectTranslation}>
+                        <Form.Select name='translation' value={selectedTranslation} onChange={onSelectTranslation}>
                             {currentCountryTranslations.map(([translationCode]) =>
                                 <option key={translationCode} value={translationCode}>{translationCode}</option>
                             )}
