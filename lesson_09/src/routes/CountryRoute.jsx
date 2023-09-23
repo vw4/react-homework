@@ -9,7 +9,7 @@ export function CountryRoute() {
     const translation = searchParams.get('translation');
     const {country} = useLoaderData();
     return <>
-        <h3>Country <NavigationButton to='/countries#'>Back to Countries</NavigationButton></h3>
+        <h3>Country <NavigationButton to='/countries'>Back to Countries</NavigationButton></h3>
         <Card>
             <Card.Header>{translation ? country.translations[translation].official : country.name.official}</Card.Header>
             <Card.Body>

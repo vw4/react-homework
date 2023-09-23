@@ -2,6 +2,7 @@ import {useCountryData} from "../../hooks/useCountryData";
 import {Button, Card, ListGroup} from "react-bootstrap";
 import _ from "lodash";
 import './style.css';
+import {Link} from "react-router-dom";
 
 export default function CountriesList() {
     const {countryData, setCountryData} = useCountryData();
@@ -24,7 +25,7 @@ export default function CountriesList() {
             data-country-item={name}
         >
             <div className="ms-2 me-auto">
-                {flag} <a href={`/country/${name}`}>{name}</a>
+                {flag} <Link to={`/country/${name}`}>{name}</Link>
             </div>
             <Button size="sm" onClick={onCountryDeleteClick} data-country-button={name}>Delete</Button>
         </ListGroup.Item>

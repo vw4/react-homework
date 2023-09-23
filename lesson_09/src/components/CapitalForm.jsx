@@ -2,7 +2,7 @@ import {useCountryData} from "../hooks/useCountryData";
 import {Button, Card, Form} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import _ from "lodash";
-import {useNavigate} from "react-router-dom";
+import {createSearchParams, useNavigate} from "react-router-dom";
 
 const getTranslationsByCountry = (countryData, official) => {
     const {translations} = _.find(countryData, {name: {official}});
@@ -47,7 +47,10 @@ export default function CapitalForm() {
         e.preventDefault();
         const formElements = e.target.elements;
         const {country: {value: country}, translation: {value: translation}} = formElements;
-        navigate(`/country/${country}?translation=${translation}`);
+        navigate({
+            pathname: `country/${country}`,
+            search: createSearchParams({translation}).toString()
+        });
     }
 
     if (!countryData) return;
