@@ -33,7 +33,7 @@ export default function CapitalForm() {
         const translationsByCountry = getTranslationsByCountry(countryData, selectedCountry);
         setCurrentCountryTranslations(translationsByCountry);
         setSelectedTranslation(translationsByCountry[0][0]);
-    }, [selectedCountry]);
+    }, [countryData, selectedCountry]);
 
     const onSelectCountry = (e) => {
         e.preventDefault();

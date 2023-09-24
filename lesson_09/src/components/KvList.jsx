@@ -14,7 +14,7 @@ export default function KvList({value}) {
             if (isValidImgUrl(v)) {
                 linkContent = <img alt={v} src={v} style={{maxHeight: '100px'}}/>
             }
-            return <a target='_blank' href={v}>{linkContent}</a>;
+            return <a target='_blank' rel='noreferrer' href={v}>{linkContent}</a>;
         }
         return v; // TextNode
     }
