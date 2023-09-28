@@ -1,0 +1,1 @@
+export const countriesSelector = store => store.countries;

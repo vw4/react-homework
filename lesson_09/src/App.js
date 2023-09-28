@@ -4,7 +4,8 @@ import {HomeRoute} from "./routes/HomeRoute";
 import {CountriesRoute} from "./routes/CountriesRoute";
 import {countryLoader, CountryRoute} from "./routes/CountryRoute";
 import {NotFoundRoute} from "./routes/NotFoundRoute";
-import {CountryDataProvider} from "./contexts/CountryDataProvider";
+import {Provider} from "react-redux";
+import {store} from "./store/store";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path='/' element={<Layout/>}>
@@ -16,7 +17,7 @@ const router = createBrowserRouter(createRoutesFromElements(
 ))
 
 export function App() {
-    return <CountryDataProvider>
+    return <Provider store={store}>
         <RouterProvider router={router} />
-    </CountryDataProvider>;
+    </Provider>;
 }

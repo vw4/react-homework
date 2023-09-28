@@ -1,43 +1,40 @@
-import {useCountryData} from "../hooks/useCountryData";
 import {Button, Card, Form} from "react-bootstrap";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import _ from "lodash";
 import {createSearchParams, useNavigate} from "react-router-dom";
-
-const getTranslationsByCountry = (countryData, official) => {
-    const {translations} = _.find(countryData, {name: {official}});
-    if (!translations) {
-        return [];
-    }
-    return _.entries(translations);
-}
+import {useSelector} from "react-redux";
+import {getCountries} from "../services/restcountries";
+import {addCountries} from "../store/actions";
+import {dispatch} from "../store/store";
+import {countriesSelector} from "../store/selectors";
 
 export default function CapitalForm() {
     const navigate = useNavigate();
-    const {countryData} = useCountryData();
-    const [selectedCountry, setSelectedCountry] = useState();
-    const [currentCountryTranslations, setCurrentCountryTranslations] = useState();
+    const countries = useSelector(countriesSelector);
+    useEffect(() => {
+        if (_.isEmpty(countries)) {
+            getCountries().then(r => dispatch(addCountries(...r)));
+        }
+    }, [countries]);
+
+    const [selectedCapital, setSelectedCapital] = useState(null);
     const [selectedTranslation, setSelectedTranslation] = useState();
 
-    useEffect(() => {
-        if (!countryData) {
-            return;
-        }
-        setSelectedCountry(countryData[0].name.official);
-    }, [countryData])
-
-    useEffect(() => {
-        if (!selectedCountry) {
-            return;
-        }
-        const translationsByCountry = getTranslationsByCountry(countryData, selectedCountry);
-        setCurrentCountryTranslations(translationsByCountry);
-        setSelectedTranslation(translationsByCountry[0][0]);
-    }, [countryData, selectedCountry]);
+    const capitals = useMemo(() => {
+        if (_.isEmpty(countries)) return [];
+        return countries.map(country => ({
+            country,
+            countryName: _.get(country, 'name.official'),
+            capital: `${country.flag || ''} ${country.capital?.join(',') || 'no capital'}`,
+            translations: _.keys(_.get(country, 'translations', {})),
+        }));
+    }, [countries]);
 
     const onSelectCountry = (e) => {
         e.preventDefault();
-        setSelectedCountry(e.target.value);
+        const selectedCapital = _.find(capitals, {countryName: e.target.value});
+        setSelectedCapital(selectedCapital);
+        setSelectedTranslation(selectedCapital.translations[0]);
     }
     const onSelectTranslation = (e) => {
         e.preventDefault();
@@ -53,7 +50,10 @@ export default function CapitalForm() {
         });
     }
 
-    if (!countryData) return;
+    if (_.isEmpty(countries)) return;
+
+    const currentCapital = selectedCapital || capitals[0];
+    const currentTranslation = selectedTranslation || currentCapital.translations[0];
 
     return <Card>
         <Card.Header>Capital Form Component</Card.Header>
@@ -61,27 +61,17 @@ export default function CapitalForm() {
             <Form onSubmit={onFormSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Label>Select Capital</Form.Label>
-                    <Form.Select name='country' value={selectedCountry} onChange={onSelectCountry}>
-                        {countryData.map(country =>
-                            <option key={country.name.official}
-                                    value={country.name.official}>{country.flag} {country.capital?.join(',')}</option>)
-                        }
+                    <Form.Select name='country' value={currentCapital.countryName} onChange={onSelectCountry}>
+                        {capitals.map(({capital, countryName}) => <option key={countryName} value={countryName}>{capital}</option>)}
                     </Form.Select>
                 </Form.Group>
-                {currentCountryTranslations &&
                     <Form.Group className="mb-3">
                         <Form.Label>Select Translation</Form.Label>
-                        <Form.Select name='translation' value={selectedTranslation} onChange={onSelectTranslation}>
-                            {currentCountryTranslations.map(([translationCode]) =>
-                                <option key={translationCode} value={translationCode}>{translationCode}</option>
-                            )}
+                        <Form.Select name='translation' value={currentTranslation} onChange={onSelectTranslation}>
+                            {currentCapital.translations.map(translation => <option key={translation} value={translation}>{translation}</option>)}
                         </Form.Select>
                     </Form.Group>
-                }
-                {selectedCountry && selectedTranslation &&
-                    <Button variant="primary" type="submit">
-                        Read more about {selectedCountry}
-                    </Button>}
+                    <Button variant="primary" type="submit">Read more about {currentCapital.countryName}</Button>
             </Form>
         </Card.Body>
     </Card>;

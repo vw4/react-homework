@@ -1,17 +1,15 @@
 import {Link, useNavigate} from "react-router-dom";
-import {useEffect, useReducer} from "react";
+import {useEffect, useState} from "react";
 
 const REDIRECT_TIMOUT_S = 5;
 
-function redirectTimoutReducer(redirectTimoutCounter) {
-    return redirectTimoutCounter > 0 ? redirectTimoutCounter - 1 : 0;
-}
-
 export function NotFoundRoute() {
-    const [redirectTimoutCounter, redirectTimoutCounterDispatcher] = useReducer(redirectTimoutReducer, REDIRECT_TIMOUT_S);
+    const [redirectTimoutCounter, setRedirectTimoutCounter] = useState(REDIRECT_TIMOUT_S);
     const navigate = useNavigate();
     useEffect( () => {
-        const pageTimoutCounterIntervalId = setInterval(redirectTimoutCounterDispatcher, 1000);
+        const pageTimoutCounterIntervalId = setInterval(() => {
+            setRedirectTimoutCounter(prevState => prevState > 0 ? prevState - 1 : 0);
+        }, 1000);
         const timeoutId = setTimeout(() => {
             navigate('/');
         }, REDIRECT_TIMOUT_S * 1000);

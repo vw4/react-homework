@@ -1,22 +1,34 @@
-import {useCountryData} from "../../hooks/useCountryData";
 import {Button, Card, ListGroup} from "react-bootstrap";
 import _ from "lodash";
 import './style.css';
 import {Link} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {addCountries, removeCountry} from "../../store/actions";
+import {useEffect} from "react";
+import {getCountries} from "../../services/restcountries";
+import {dispatch} from "../../store/store";
+import {countriesSelector} from "../../store/selectors";
 
 export default function CountriesList() {
-    const {countryData, setCountryData} = useCountryData();
+    const countries = useSelector(countriesSelector);
 
-    if (!countryData) {
+    useEffect(() => {
+        if (_.isEmpty(countries)) {
+            getCountries().then(r => dispatch(addCountries(...r)));
+        }
+    }, [countries])
+
+    if (_.isEmpty(countries)) {
         return;
     }
 
     const onCountryDeleteClick = (e) => {
-        const {countryButton: country} = e.target.dataset;
+        const {countryButton} = e.target.dataset;
         e.target.disabled = true;
-        const containerElement = document.querySelector(`[data-country-item="${country}"]`);
+        const containerElement = document.querySelector(`[data-country-item="${countryButton}"]`);
         containerElement.classList.add('hide');
-        setTimeout(() => setCountryData((prevState) => _.reject(prevState, {name: {official: country}})), 200);
+        const targetCountry = _.find(countries, {name: {official: countryButton}});
+        setTimeout(() => removeCountry(targetCountry), 200);
     }
 
     const CountryListItem = ({flag, name}) => {
@@ -35,7 +47,7 @@ export default function CountriesList() {
         <Card.Header>Countries List</Card.Header>
         <Card.Body>
             <ListGroup>
-                {countryData.map(country => <CountryListItem key={country.name.official} flag={country.flag}
+                {countries.map(country => <CountryListItem key={country.name.official} flag={country.flag}
                                                              name={country.name.official}/>)}
             </ListGroup>
         </Card.Body>
