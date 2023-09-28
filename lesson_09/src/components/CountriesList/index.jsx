@@ -3,20 +3,12 @@ import _ from "lodash";
 import './style.css';
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {addCountries, removeCountry} from "../../store/actions";
-import {useEffect} from "react";
-import {getCountries} from "../../services/restcountries";
-import {dispatch} from "../../store/store";
+import {removeCountry} from "../../store/actions";
 import {countriesSelector} from "../../store/selectors";
+import {dispatch} from "../../store/store";
 
 export default function CountriesList() {
     const countries = useSelector(countriesSelector);
-
-    useEffect(() => {
-        if (_.isEmpty(countries)) {
-            getCountries().then(r => dispatch(addCountries(...r)));
-        }
-    }, [countries])
 
     if (_.isEmpty(countries)) {
         return;
@@ -28,7 +20,7 @@ export default function CountriesList() {
         const containerElement = document.querySelector(`[data-country-item="${countryButton}"]`);
         containerElement.classList.add('hide');
         const targetCountry = _.find(countries, {name: {official: countryButton}});
-        setTimeout(() => removeCountry(targetCountry), 200);
+        setTimeout(() => dispatch(removeCountry(targetCountry)), 200);
     }
 
     const CountryListItem = ({flag, name}) => {

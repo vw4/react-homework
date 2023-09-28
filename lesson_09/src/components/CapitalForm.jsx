@@ -1,21 +1,13 @@
 import {Button, Card, Form} from "react-bootstrap";
-import {useEffect, useMemo, useState} from "react";
+import {useMemo, useState} from "react";
 import _ from "lodash";
 import {createSearchParams, useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {getCountries} from "../services/restcountries";
-import {addCountries} from "../store/actions";
-import {dispatch} from "../store/store";
 import {countriesSelector} from "../store/selectors";
 
 export default function CapitalForm() {
     const navigate = useNavigate();
     const countries = useSelector(countriesSelector);
-    useEffect(() => {
-        if (_.isEmpty(countries)) {
-            getCountries().then(r => dispatch(addCountries(...r)));
-        }
-    }, [countries]);
 
     const [selectedCapital, setSelectedCapital] = useState(null);
     const [selectedTranslation, setSelectedTranslation] = useState();
