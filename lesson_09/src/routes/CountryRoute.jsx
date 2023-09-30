@@ -8,7 +8,7 @@ export function CountryRoute() {
     const [searchParams] = useSearchParams();
     const translation = searchParams.get('translation');
     const {country} = useLoaderData();
-    return <Container>
+    return <Container fluid>
         <Row>
             <Col md={6}>
                 <h3>Country</h3>
@@ -18,7 +18,9 @@ export function CountryRoute() {
             </Col>
         </Row>
         <Row>
-            <CountryCard translation={translation} country={country}/>
+            <Col>
+                <CountryCard translation={translation} country={country}/>
+            </Col>
         </Row>
     </Container>;
 }
