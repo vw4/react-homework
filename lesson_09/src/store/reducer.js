@@ -11,8 +11,7 @@ export function countryStoreReducer(state = INITIAL_STATE, {type, payload}) {
         case COUNTRY_ACTIONS.REMOVE_COUNTRY:
             return  {...state, countries: state.countries.filter(country => country !== payload)};
         case COUNTRY_ACTIONS.REMOVE_COUNTRY_BY_NAME:
-            console.log(payload, state.countries.find(country => country.name.official === payload))
-            return {...state, countries: state.countries.filter(country => country.name.official !== payload)}
+            return {...state, countries: state.countries.filter(country => country.name.official !== payload)};
         default:
             return state;
     }
