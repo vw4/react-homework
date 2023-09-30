@@ -1,6 +1,7 @@
 import {Outlet} from "react-router-dom";
 import {Navigation} from "../../components/Navigation";
 import './style.css';
+import {Col, Container, Row} from "react-bootstrap";
 
 export function Layout() {
     return <>
@@ -8,7 +9,13 @@ export function Layout() {
             <Navigation/>
         </header>
         <main>
-            <Outlet/>
+            <Container>
+                <Row>
+                    <Col className='main-content'>
+                        <Outlet/>
+                    </Col>
+                </Row>
+            </Container>
         </main>
     </>;
 }
