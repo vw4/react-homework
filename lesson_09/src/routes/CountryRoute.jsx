@@ -1,25 +1,29 @@
 import {useLoaderData, useSearchParams} from "react-router-dom";
-import {getCountriesByName} from "../services/restcountries";
-import KvList from "../components/KvList";
-import {Card} from "react-bootstrap";
+import {restcountries} from "../services/restcountries";
+import {Col, Container, Row} from "react-bootstrap";
 import {NavigationButton} from "../components/NavigationButton";
+import {CountryCard} from "../components/CountryCard";
 
 export function CountryRoute() {
     const [searchParams] = useSearchParams();
     const translation = searchParams.get('translation');
     const {country} = useLoaderData();
-    return <>
-        <h3>Country <NavigationButton to='/countries'>Back to Countries</NavigationButton></h3>
-        <Card>
-            <Card.Header>{translation ? country.translations[translation].official : country.name.official}</Card.Header>
-            <Card.Body>
-                <KvList value={country}/>
-            </Card.Body>
-        </Card>
-    </>
+    return <Container>
+        <Row>
+            <Col md={6}>
+                <h3>Country</h3>
+            </Col>
+            <Col md={6} className='text-end'>
+                <NavigationButton to='/countries'>Back to Countries</NavigationButton>
+            </Col>
+        </Row>
+        <Row>
+            <CountryCard translation={translation} country={country}/>
+        </Row>
+    </Container>;
 }
 
 export async function countryLoader({params: {name}}) {
-    const [country] = await getCountriesByName(name);
+    const [country] = await restcountries.getByName(name);
     return {country};
 }

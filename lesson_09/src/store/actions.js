@@ -1,10 +1,10 @@
 export const COUNTRY_ACTIONS = {
-    ADD_COUNTRIES: 'ADD_COUNTRIES',
+    SET_COUNTRIES: 'SET_COUNTRIES',
     REMOVE_COUNTRY: 'REMOVE_COUNTRY',
 }
 
-export function addCountries(...countries) {
-    return {type: COUNTRY_ACTIONS.ADD_COUNTRIES, payload: countries};
+export function setCountries(...countries) {
+    return {type: COUNTRY_ACTIONS.SET_COUNTRIES, payload: countries};
 }
 
 export function removeCountry(country) {

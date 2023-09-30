@@ -4,14 +4,23 @@ import './style.css';
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {removeCountry} from "../../store/actions";
-import {countriesSelector} from "../../store/selectors";
+import {countriesSelector, isLoadedSelector} from "../../store/selectors";
 import {dispatch} from "../../store/store";
+import {useEffect} from "react";
+import {setCountriesThunk} from "../../store/thunks";
 
 export default function CountriesList() {
     const countries = useSelector(countriesSelector);
+    const isLoaded = useSelector(isLoadedSelector);
+
+    useEffect(() => {
+        if (!isLoaded) {
+            dispatch(setCountriesThunk());
+        }
+    }, []);
 
     if (_.isEmpty(countries)) {
-        return;
+        return <p>No countries...</p>;
     }
 
     const onCountryDeleteClick = (e) => {
