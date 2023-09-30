@@ -1,7 +1,7 @@
-import _ from 'lodash';
+import _ from "lodash";
 import {isValidHttpUrl, isValidImgUrl} from "../utils/misc";
 
-export default function KvList({value}) {
+export function KvList({value}) {
     const ListValue = ({v}) => {
         if (_.isObject(v)) {
             return <KvList value={v}/>;

@@ -1,5 +1,5 @@
 import {NavLink} from "react-router-dom";
-import './style.css';
+import "./style.css";
 import {Container, Nav, Navbar} from "react-bootstrap";
 
 export function Navigation() {

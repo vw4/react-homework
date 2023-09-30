@@ -1,4 +1,4 @@
-import CapitalForm from "../components/CapitalForm";
+import {CapitalForm} from "../components/CapitalForm";
 
 export function HomeRoute() {
     return <>

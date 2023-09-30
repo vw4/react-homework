@@ -1,22 +1,13 @@
 import {Button, Card, Form} from "react-bootstrap";
-import {useEffect, useMemo, useState} from "react";
+import {useMemo, useState} from "react";
 import _ from "lodash";
 import {createSearchParams, useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {countriesSelector, isLoadedSelector} from "../store/selectors";
-import {dispatch} from "../store/store";
-import {setCountriesThunk} from "../store/thunks";
+import {countriesSelector} from "../store/selectors";
 
-export default function CapitalForm() {
+export function CapitalForm() {
     const navigate = useNavigate();
     const countries = useSelector(countriesSelector);
-    const isLoaded = useSelector(isLoadedSelector);
-
-    useEffect(() => {
-        if (!isLoaded) {
-            dispatch(setCountriesThunk());
-        }
-    }, []);
 
     const [selectedCapital, setSelectedCapital] = useState(null);
     const [selectedTranslation, setSelectedTranslation] = useState();

@@ -14,7 +14,7 @@ export function CountryRoute() {
                 <h3>Country</h3>
             </Col>
             <Col md={6} className='text-end'>
-                <NavigationButton to='/countries'>Back to Countries</NavigationButton>
+                <NavigationButton to='/countries' size='sm'>Back to Countries</NavigationButton>
             </Col>
         </Row>
         <Row>

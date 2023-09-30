@@ -1,23 +1,14 @@
 import {Button, Card, ListGroup} from "react-bootstrap";
 import _ from "lodash";
-import './style.css';
+import "./style.css";
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {removeCountry} from "../../store/actions";
-import {countriesSelector, isLoadedSelector} from "../../store/selectors";
+import {countriesSelector} from "../../store/selectors";
 import {dispatch} from "../../store/store";
-import {useEffect} from "react";
-import {setCountriesThunk} from "../../store/thunks";
 
-export default function CountriesList() {
+export function CountriesList() {
     const countries = useSelector(countriesSelector);
-    const isLoaded = useSelector(isLoadedSelector);
-
-    useEffect(() => {
-        if (!isLoaded) {
-            dispatch(setCountriesThunk());
-        }
-    }, []);
 
     if (_.isEmpty(countries)) {
         return <p>No countries...</p>;
@@ -40,7 +31,7 @@ export default function CountriesList() {
             <div className="ms-2 me-auto">
                 {flag} <Link to={`/country/${name}`}>{name}</Link>
             </div>
-            <Button size="sm" onClick={onCountryDeleteClick} data-country-button={name}>Delete</Button>
+            <Button size="sm" variant="danger" onClick={onCountryDeleteClick} data-country-button={name}>Delete</Button>
         </ListGroup.Item>
     }
 
